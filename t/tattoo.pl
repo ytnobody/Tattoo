@@ -7,7 +7,7 @@
         ssh => {
             type => 'SSH',
             user => $ENV{TEST_USER},
-            password => $ENV{TEST_PASS}'
+            password => $ENV{TEST_PASS},
         },
     },
 
