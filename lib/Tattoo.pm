@@ -48,14 +48,16 @@ sub BUILDARGS {
 
 sub exec {
     my $self = shift;
+    my @rtn;
     for my $deployment_name ( keys %{$self->deployment} ) {
         for my $addr ( @{$self->deploy->{$deployment_name}} ) {
             my $host = $self->hosts->{$addr};
             for my $action ( @{ $self->deployment->{$deployment_name}->actions } ) {
-                $action->do( $host );
+                push @rtn, $action->do( $host );
             }
         }
     }
+    return @rtn;
 }
 
 no Mouse;

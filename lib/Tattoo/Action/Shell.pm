@@ -14,9 +14,17 @@ sub BUILDARGS {
 sub do {
     my ( $self, $host ) = @_;
     my $connect = $host->connect;
+    my @res;
     for my $cmd ( @{$self->exec} ) {
         my ( $stdout, $stderr, $exit ) = $connect->cmd( $cmd );
+        if ( $exit ) {
+            warn $stderr;
+        }
+        else {
+            push @res, $stdout;
+        }
     }
+    return wantarray ? @res : join "\n", @res;
 }
 
 no Mouse;

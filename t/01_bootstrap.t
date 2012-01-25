@@ -7,7 +7,8 @@ my $t = Tattoo->bootstrap( File::Spec->catfile( 't', 'tattoo.pl' ) );
 diag explain $t;
 diag '---';
 
-diag explain $t->exec;
+use Data::Dumper;
+warn Dumper( $t->exec );
 
 ok 1;
 done_testing;
