@@ -2,6 +2,8 @@ package Tattoo::Connection::SSH;
 use Mouse;
 use Net::SSH::Perl;
 
+with qw( Tattoo::Trait::WithEnv );
+
 has user => ( is => 'ro', isa => 'Str', default => 'root' );
 has password => ( is => 'ro', isa => 'Str', required => 1 );
 has options => ( is => 'ro', isa => 'HashRef', default => sub { {} } );
@@ -10,9 +12,11 @@ sub BUILDARGS {
     my ( $self, %args ) = @_;
     my $user = delete $args{user} || 'root';
     my $password = delete $args{password};
+    my $env = delete $args{env} || {};
     return { 
         user => $user, 
-        password => $password, 
+        password => $password,
+        env => $env, 
         options => {%args},
     };
 }

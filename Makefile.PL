@@ -11,6 +11,9 @@ requires 'Net::SSH::Perl';
 # Tattoo::Action::Shell
 requires 'File::Slurp';
 
+# Tattoo::Action::Workspace::Build
+requires 'Data::UUID';
+
 tests 't/*.t';
 author_tests 'xt';
 

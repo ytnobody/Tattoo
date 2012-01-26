@@ -2,6 +2,8 @@ package Tattoo;
 use Mouse;
 our $VERSION = '0.01';
 
+with qw( Tattoo::Trait::WithEnv );
+
 use Cwd;
 use Clone qw( clone );
 use File::Spec;
@@ -9,7 +11,6 @@ use Tattoo::Interface::Connection;
 use Tattoo::Interface::Host;
 use Tattoo::Deployment;
 
-has env => ( is => 'ro', isa => 'HashRef', default => sub { { DEPLOY_ENV => "development" } } );
 has hosts => ( is => 'ro', isa => 'HashRef', required => 1 );
 has deployment => ( is => 'ro', isa => 'HashRef', required => 1 );
 has deploy => ( is => 'ro', isa => 'HashRef', required => 1 );
@@ -20,11 +21,6 @@ sub bootstrap {
     Carp::croak "could not find $tattoo_file" unless -e $tattoo_file;
     my $config = do( $tattoo_file );
     $class->new( %$config );
-}
-
-sub BUILD {
-    my $self = shift;
-    $self->env->{WORKSPACE} ||= sprintf '/tmp/tattoo/%d-%06d', time, int(rand(1000000));
 }
 
 sub BUILDARGS {
@@ -45,6 +41,7 @@ sub BUILDARGS {
         $args{deployment}{$key} = Tattoo::Deployment->new( 
             name => $key, 
             actions => $args{deployment}{$key}, 
+            env => $args{env},
         );
     }
     

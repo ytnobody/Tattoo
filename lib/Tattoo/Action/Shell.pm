@@ -2,7 +2,9 @@ package Tattoo::Action::Shell;
 use Mouse;
 use File::Slurp;
 
-has exec => ( is => 'ro', isa => 'ArrayRef', required => 1 );
+with qw( Tattoo::Trait::WithEnv );
+
+has exec => ( is => 'rw' );
 
 sub BUILDARGS {
     my ( $self, %args ) = @_;
@@ -13,17 +15,19 @@ sub BUILDARGS {
 
 sub do {
     my ( $self, $connection ) = @_;
-    my @res;
-    for my $cmd ( @{$self->exec} ) {
-        my ( $stdout, $stderr, $exit ) = $connection->cmd( $cmd );
-        if ( $exit ) {
-            warn $stderr;
-        }
-        else {
-            push @res, $stdout;
-        }
+
+    if ( $self->env->{WORKSPACE} ) {
+        my $workspace = $self->env->{WORKSPACE};
+        unshift @{$self->exec}, "[ -e '$workspace' ] && cd $workspace";
     }
-    return wantarray ? @res : join "\n", @res;
+
+    my ( $stdout, $stderr, $exit ) = $connection->cmd( join ';', @{$self->exec} );
+    if ( $exit ) {
+        die "exit_code( $exit ): $stderr";
+    }
+    else {
+        return $stdout;
+    }
 }
 
 no Mouse;
