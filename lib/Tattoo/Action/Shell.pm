@@ -12,11 +12,10 @@ sub BUILDARGS {
 }
 
 sub do {
-    my ( $self, $host ) = @_;
-    my $connect = $host->connect;
+    my ( $self, $connection ) = @_;
     my @res;
     for my $cmd ( @{$self->exec} ) {
-        my ( $stdout, $stderr, $exit ) = $connect->cmd( $cmd );
+        my ( $stdout, $stderr, $exit ) = $connection->cmd( $cmd );
         if ( $exit ) {
             warn $stderr;
         }

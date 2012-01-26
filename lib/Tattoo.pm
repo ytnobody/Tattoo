@@ -9,7 +9,7 @@ use Tattoo::Interface::Connection;
 use Tattoo::Interface::Host;
 use Tattoo::Deployment;
 
-has env => ( is => 'ro', isa => 'HashRef', required => 1 );
+has env => ( is => 'ro', isa => 'HashRef', default => sub { { DEPLOY_ENV => "development" } } );
 has hosts => ( is => 'ro', isa => 'HashRef', required => 1 );
 has deployment => ( is => 'ro', isa => 'HashRef', required => 1 );
 has deploy => ( is => 'ro', isa => 'HashRef', required => 1 );
@@ -20,6 +20,11 @@ sub bootstrap {
     Carp::croak "could not find $tattoo_file" unless -e $tattoo_file;
     my $config = do( $tattoo_file );
     $class->new( %$config );
+}
+
+sub BUILD {
+    my $self = shift;
+    $self->env->{WORKSPACE} ||= sprintf '/tmp/tattoo/%d-%06d', time, int(rand(1000000));
 }
 
 sub BUILDARGS {
@@ -52,8 +57,10 @@ sub exec {
     for my $deployment_name ( keys %{$self->deployment} ) {
         for my $addr ( @{$self->deploy->{$deployment_name}} ) {
             my $host = $self->hosts->{$addr};
+            my $connection = $host->connect;
+
             for my $action ( @{ $self->deployment->{$deployment_name}->actions } ) {
-                push @rtn, $action->do( $host );
+                push @rtn, $action->do( $connection );
             }
         }
     }
