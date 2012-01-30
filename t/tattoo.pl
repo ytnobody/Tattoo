@@ -19,6 +19,7 @@
 
     deployment => {
         beercracker => [
+            'Clone::Git' => { repository => 'git://github.com/ytnobody/Tattoo.git' },
             Shell => { script => 't/deploy.sh' },
         ],
     },

@@ -3,7 +3,7 @@ use Mouse;
 
 with qw( Tattoo::Trait::WithEnv );
 
-has exec => ( is => 'rw' );
+has exec => ( is => 'rw', default => sub { [] } );
 
 sub do {
     my ( $self, $connection ) = @_;
@@ -20,6 +20,11 @@ sub do {
     else {
         return $stdout;
     }
+}
+
+sub cmd {
+    my ( $self, @cmd ) = @_;
+    push @{$self->exec}, join( ';', @cmd );
 }
 
 no Mouse;
