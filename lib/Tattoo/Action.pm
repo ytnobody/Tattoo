@@ -6,6 +6,14 @@ with qw( Tattoo::Trait::WithEnv );
 
 has exec => ( is => 'rw', default => sub { [] } );
 
+around do => sub {
+    my ( $next, $self, @args ) = @_;
+    $self->info( 'Started to processing.' );
+    my $rtn = $self->$next( @args );
+    $self->info( 'Finished processing.' );
+    return $rtn;
+};
+
 sub time {
     localtime->strftime( '%Y-%m-%d %H:%M:%S' );
 }

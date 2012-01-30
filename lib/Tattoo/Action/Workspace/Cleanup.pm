@@ -1,13 +1,13 @@
 package Tattoo::Action::Workspace::Cleanup;
 use Mouse;
-extends qw( Tattoo::Action::Shell );
+extends qw( Tattoo::Action );
 
 sub BUILD {
     my $self = shift;
     my $workspace = $self->env->{WORKSPACE};
     $self->exec([
         'cd $HOME',
-        "rm -vrf $workspace",
+        "rm -rf $workspace",
     ]);
 }
 

@@ -48,8 +48,6 @@ sub BUILDARGS {
     return { %args };
 }
 
-use Data::Dumper;
-
 sub exec {
     my $self = shift;
     my @rtn;
@@ -59,7 +57,6 @@ sub exec {
             my $connection = $host->connect;
 
             for my $action ( @{ $self->deployment->{$deployment_name}->actions } ) {
-warn Dumper( $action );
                 push @rtn, $action->do( $connection );
             }
         }

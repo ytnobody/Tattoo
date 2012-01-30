@@ -1,6 +1,6 @@
 package Tattoo::Action::Workspace::Build;
 use Mouse;
-extends qw( Tattoo::Action::Shell );
+extends qw( Tattoo::Action );
 
 use Data::UUID;
 
