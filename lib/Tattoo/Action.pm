@@ -23,11 +23,6 @@ sub time {
 sub do {
     my ( $self, $connection ) = @_;
 
-    if ( $self->env->{WORKSPACE} ) {
-        my $workspace = $self->env->{WORKSPACE};
-        unshift @{$self->exec}, "[ -e '$workspace' ] && cd $workspace";
-    }
-
     my ( $stdout, $stderr, $exit ) = $connection->cmd( join ';', @{$self->exec} );
     if ( $exit ) {
         $self->error( $stderr, $exit );
@@ -45,20 +40,25 @@ sub cmd {
 sub info {
     my ( $self, $mes ) = @_;
     my $package = ref $self;
-    printf "%s [%s] INFO: %s \n", $self->time, $package, $mes;
+    printf "%s [%s %s] INFO: %s \n", $self->time, $self->name, $package, $mes;
 }
 
 sub warn {
     my ( $self, $mes ) = @_;
     my $package = ref $self;
-    print STDERR sprintf "%s [%s] WARN: %s \n", $self->time, $package, $mes;
+    print STDERR sprintf "%s [%s %s] WARN: %s \n", $self->time, $self->name, $package, $mes;
 }
 
 sub error {
     my ( $self, $mes, $exit ) = @_;
     my $package = ref $self;
-    print STDERR sprintf "%s [%s] ERROR: %s (exit_code=%d)\n", $self->time, $package, $mes, $exit;
+    print STDERR sprintf "%s [%s %s] ERROR: %s (exit_code=%d)\n", $self->time, $self->name, $package, $mes, $exit;
     exit( $exit );
+}
+
+sub name {
+    my ( $self ) = @_;
+    return $self->env->{NAME};
 }
 
 no Mouse;

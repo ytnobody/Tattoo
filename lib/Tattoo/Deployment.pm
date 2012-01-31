@@ -4,7 +4,7 @@ use Mouse::Util;
 
 with qw( Tattoo::Trait::WithEnv );
 
-has name => ( is => 'ro', isa => 'Str', required => 1 );
+has name => ( is => 'rw', isa => 'Str' );
 has actions => ( is => 'ro', isa => 'ArrayRef', default => sub { [] } );
 
 sub BUILDARGS {
@@ -17,6 +17,10 @@ sub BUILDARGS {
     );
 
     $args{actions} = [];
+    $args{env} ||= {};
+
+    $args{env}{NAME} = $args{name};
+    $args{env}{DEPLOY_ROOT} = '/tmp/'.$args{name};
 
     while ( @actions ) {
         my $class = shift @actions;

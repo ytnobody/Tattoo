@@ -1,6 +1,7 @@
 package Tattoo::Action::Workspace::Cleanup;
 use Mouse;
 extends qw( Tattoo::Action );
+with qw( Tattoo::Action::Trait::AtWorkspace );
 
 sub BUILD {
     my $self = shift;

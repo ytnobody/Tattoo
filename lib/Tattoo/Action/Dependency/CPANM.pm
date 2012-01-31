@@ -2,6 +2,7 @@ package Tattoo::Action::Dependency::CPANM;
 use Mouse;
 
 extends qw( Tattoo::Action );
+with qw( Tattoo::Action::Trait::AtWorkspace );
 
 has mirror => ( is => 'ro' );
 has mirror_only => ( is => 'ro', isa => 'Bool', default => 0 );

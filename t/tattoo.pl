@@ -18,14 +18,14 @@
     },
 
     deployment => {
-        beercracker => [
-            'Clone::Git' => { repository => 'git://github.com/ytnobody/Tattoo.git' },
-            'Dependency::CPANM' => { verbose => 1 },
-            'Shell' => { script => 't/deploy.sh' },
+        firecracker => [
+            'Clone::Git' => { repository => 'git://github.com/ytnobody/firecracker.git' },
+            'Dependency::CPANM' => { verbose => 0 },
+            'BootUp::Starlet' => { port => 19999, host => '0.0.0.0', max_workers => 3 },
         ],
     },
 
     deploy => {
-        beercracker => [ "127.0.0.1" ],
+        firecracker => [ "127.0.0.1" ],
     },
 };

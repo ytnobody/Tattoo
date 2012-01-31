@@ -2,6 +2,7 @@ package Tattoo::Action::Clone::Git;
 use Mouse;
 
 extends qw( Tattoo::Action );
+with qw( Tattoo::Action::Trait::AtWorkspace );
 
 has repository => ( is => 'ro', isa => 'Str', required => 1 );
 has branch => ( is => 'ro', isa => 'Str', default => 'master' );

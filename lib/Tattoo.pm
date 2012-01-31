@@ -41,7 +41,7 @@ sub BUILDARGS {
         $args{deployment}{$key} = Tattoo::Deployment->new( 
             name => $key, 
             actions => $args{deployment}{$key}, 
-            env => $args{env},
+            env => { %{$args{env}}, NAME => $key },
         );
     }
     
