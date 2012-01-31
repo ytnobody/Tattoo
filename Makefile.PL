@@ -4,9 +4,14 @@ all_from 'lib/Tattoo.pm';
 
 # Tattoo
 requires 'Mouse';
+requires 'Clone';
+requires 'File::Spec';
 
 # Tattoo::Connection::SSH
 requires 'Net::SSH::Perl';
+
+# Tattoo::Action
+requires 'Time::Piece';
 
 # Tattoo::Action::Shell
 requires 'File::Slurp';
