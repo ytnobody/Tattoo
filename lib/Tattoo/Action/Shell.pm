@@ -4,8 +4,6 @@ use File::Slurp;
 
 extends qw( Tattoo::Action );
 
-with qw( Tattoo::Trait::WithEnv );
-
 sub BUILDARGS {
     my ( $self, %args ) = @_;
     my $script = delete $args{script};

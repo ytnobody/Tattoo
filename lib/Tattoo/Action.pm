@@ -2,7 +2,7 @@ package Tattoo::Action;
 use Mouse;
 use Time::Piece;
 
-with qw( Tattoo::Trait::WithEnv );
+with qw( Tattoo::Trait::WithEnv Tattoo::Action::Trait::ExportEnv );
 
 has exec => ( is => 'rw', default => sub { [] } );
 has verbose => ( is => 'ro', isa => 'Bool', default => 0 );
@@ -23,7 +23,7 @@ sub time {
 sub do {
     my ( $self, $connection ) = @_;
 
-    my ( $stdout, $stderr, $exit ) = $connection->cmd( join ';', @{$self->exec} );
+    my ( $stdout, $stderr, $exit ) = $connection->cmd( join ' && ', @{$self->exec} );
     if ( $exit ) {
         $self->error( $stderr, $exit );
     }
@@ -34,7 +34,7 @@ sub do {
 
 sub cmd {
     my ( $self, @cmd ) = @_;
-    push @{$self->exec}, join( ';', @cmd );
+    push @{$self->exec}, join( ' ', @cmd );
 }
 
 sub info {

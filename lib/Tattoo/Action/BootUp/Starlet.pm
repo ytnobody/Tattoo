@@ -18,21 +18,24 @@ sub BUILDARGS {
 sub BUILD {
     my $self = shift;
 
-    $self->cmd( 
-         '[ -e "'.$self->pid_file.'" ] && kill $(cat '.$self->pid_file.')',
-         join( 
-             ' ', 'start_server', 
-             '--pid' => $self->pid_file,
-             '--port' => $self->port,
-             '--' => 'plackup',
-             '-s' => 'Starlet',
-             '--max-workers' => $self->max_workers,
-             '-I' => 'extlib/lib/perl5', 
-             '-I' => 'lib', 
-             $self->psgi_file, 
-             '>' => $self->log_file, '2>&1', '&',
-         ),
-    );
+    $self->cmd( 'pwd' );
+    $self->cmd( 'ls -l' );
+
+#    $self->cmd( 
+#         '[ -e "'.$self->pid_file.'" ] && kill $(cat '.$self->pid_file.')',
+#         join( 
+#             ' ', 'start_server', 
+#             '--pid' => $self->pid_file,
+#             '--port' => $self->port,
+#             '--' => 'plackup',
+#             '-s' => 'Starlet',
+#             '--max-workers' => $self->max_workers,
+#             '-I' => 'extlib/lib/perl5', 
+#             '-I' => 'lib', 
+#             $self->psgi_file, 
+#             '>' => $self->log_file, '2>&1', '&',
+#         ),
+#    );
 }
 
 no Mouse;

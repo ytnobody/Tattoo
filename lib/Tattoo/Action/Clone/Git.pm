@@ -10,13 +10,10 @@ has commit_id => ( is => 'ro', default => undef );
 
 sub BUILD {
     my $self = shift;
-    $self->cmd( 
-        'which git',
-        join( ' ', 'git clone', $self->repository, $self->env->{WORKSPACE} ),
-        join( ' ', 'git checkout', $self->branch ),
-    );
+    $self->cmd( 'git clone', $self->repository, '$WORKSPACE' );
+    $self->cmd( 'git checkout', $self->branch );
     if ( $self->commit_id ) {
-        $self->cmd( 'git checkout '.$self->commit_id );
+        $self->cmd( 'git checkout', $self->commit_id );
     }
 }
 

@@ -20,7 +20,7 @@ sub BUILDARGS {
     $args{env} ||= {};
 
     $args{env}{NAME} = $args{name};
-    $args{env}{DEPLOY_ROOT} = '/tmp/'.$args{name};
+    $args{env}{DEPLOY_ROOT} ||= '/tmp/'.$args{name};
 
     while ( @actions ) {
         my $class = shift @actions;

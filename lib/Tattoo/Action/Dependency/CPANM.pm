@@ -16,10 +16,8 @@ sub BUILD {
     if ( $self->mirror_only ) {
         push @cmd, '--mirror_only';
     }
-    $self->cmd(
-        join( ' ', @cmd ), 
-        join( ' ', 'cat ~/.cpanm/build.log' ),
-    );
+    $self->cmd( @cmd );
+    $self->cmd( 'cat', '~/.cpanm/build.log' );
 }
 
 no Mouse;
