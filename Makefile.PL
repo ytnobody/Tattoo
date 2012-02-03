@@ -7,8 +7,10 @@ requires 'Mouse';
 requires 'Clone';
 requires 'File::Spec';
 
-# Tattoo::Connection::SSH
+# Tattoo::Connection::SSH::Session
 requires 'Net::SSH::Perl';
+requires 'Net::SFTP';
+requires 'SUPER';
 
 # Tattoo::Action
 requires 'Time::Piece';

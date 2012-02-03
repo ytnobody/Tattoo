@@ -1,6 +1,6 @@
 package Tattoo::Connection::SSH;
 use Mouse;
-use Net::SSH::Perl;
+use Tattoo::Connection::SSH::Session;
 
 with qw( Tattoo::Trait::WithEnv );
 
@@ -23,7 +23,7 @@ sub BUILDARGS {
 
 sub connect {
     my ( $self, $host ) = @_;
-    my $ssh = Net::SSH::Perl->new( $host, %{$self->options} );
+    my $ssh = Tattoo::Connection::SSH::Session->new( $host, %{$self->options} );
     $ssh->login( $self->user, $self->password ) 
         or Carp::croak sprintf( "%s: Authentication failure (host=%s)", __PACKAGE__, $host );
     return $ssh;
